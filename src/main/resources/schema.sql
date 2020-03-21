@@ -1,8 +1,9 @@
-drop  table oauth_access_token;
-drop  table oauth_client_details;
-drop  table oauth_client_token;
-drop  table oauth_code;
-drop  table oauth_refresh_token;
+drop  table if exists oauth_access_token;
+drop  table if exists oauth_client_details;
+drop  table if exists oauth_client_token;
+drop  table if exists oauth_code;
+drop  table if exists oauth_refresh_token;
+drop  table if exists users;
 
 create table oauth_client_details
 (
