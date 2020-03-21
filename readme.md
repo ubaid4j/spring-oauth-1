@@ -4,7 +4,7 @@
 - mySQL 18 (will change to postgreSQL)
     - username: root
     - password: root
-
+    
 ### How to run
 - git clone https://github.com/UbaidurRehman1/spring-oauth-1
 - cd spring-oauth-1
@@ -20,6 +20,11 @@
     - username: 1
     - password: admin
 
+### Demo
+- Request
+    ![alt text](imgs/request.png)
+- Response
+    ![alt text](imgs/response.png)
 
 ### Documentation
 - OAuth2 Authorization server with Spring Security
