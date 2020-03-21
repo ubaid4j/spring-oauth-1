@@ -1,3 +1,10 @@
+### Requirements
+- Java 13
+- Maven 3.6.3
+- mySQL 18 (will change to postgreSQL)
+    - username: root
+    - password: root
+
 ### How to run
 - git clone https://github.com/UbaidurRehman1/spring-oauth-1
 - cd spring-oauth-1
