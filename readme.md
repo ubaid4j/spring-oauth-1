@@ -1,3 +1,19 @@
+### How to run
+- git clone https://github.com/UbaidurRehman1/spring-oauth-1
+- cd spring-oauth-1
+- mvn spring-boot:run
+
+### How to get Token
+- There is one client already in the database 
+    - username: 1
+    - password: admin
+- Execute a post request 
+    - post request: http://localhost:8000/oauth/token?grant_type=password&user_name=admin&password=admin
+- with Basic Auth (Client credentials)
+    - username: 1
+    - password: admin
+
+
 ### Documentation
 - OAuth2 Authorization server with Spring Security
 - We can add clients in this server
