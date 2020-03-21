@@ -6,10 +6,10 @@
 
 	<groupId>com.spring.security</groupId>
 	<packaging>jar</packaging>
-	<artifactId>spring-security-oauth2-example-2</artifactId>
+	<artifactId>ss-oauth2-boiler-plate</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-security-oauth2-example-2</name>
-	<description>Demo project for Spring Boot</description>
+	<name>ss-oauth2-boiler-plate</name>
+	<description>This repo contain the boiler plate of authorization server for oauth 2 with spring boot 2 and spring security.</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
