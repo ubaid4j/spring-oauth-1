@@ -1,9 +1,18 @@
-drop  table if exists oauth_access_token;
-drop  table if exists oauth_client_details;
-drop  table if exists oauth_client_token;
-drop  table if exists oauth_code;
-drop  table if exists oauth_refresh_token;
-drop  table if exists users;
+drop table if exists oauth_access_token;
+drop table if exists oauth_client_details;
+drop table if exists oauth_client_token;
+drop table if exists oauth_code;
+drop table if exists oauth_refresh_token;
+drop table if exists users;
+
+create table users
+(
+    id       int          not null primary key,
+    enabled  smallint     null,
+    password varchar(800) null,
+    role     varchar(50)  null,
+    username varchar(50)  null
+);
 
 create table oauth_client_details
 (
