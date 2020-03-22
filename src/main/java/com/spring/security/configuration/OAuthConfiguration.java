@@ -4,20 +4,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
+import org.springframework.security.oauth2.provider.token.TokenStore;
+
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
-import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.error.DefaultWebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
-import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 
@@ -59,11 +65,12 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
                 .accessTokenConverter(defaultAccessTokenConverter())
                 .userDetailsService(userDetailsService)
                 .exceptionTranslator(loggingExceptionTranslator());
+
     }
 
     @Bean
     public TokenStore tokenStore() {
-        return new JdbcTokenStore(ds);
+        return new OAuthAccessToken(ds);
     }
 
     @Bean
@@ -94,5 +101,25 @@ public class OAuthConfiguration extends AuthorizationServerConfigurerAdapter {
                 return new ResponseEntity<>(excBody, headers, responseEntity.getStatusCode());
             }
         };
+    }
+
+    private static class OAuthAccessToken extends JdbcTokenStore {
+        public OAuthAccessToken(DataSource dataSource) {
+            super(dataSource);
+        }
+
+        @Override
+        public OAuth2AccessToken readAccessToken(String tokenValue) {
+            OAuth2AccessToken accessToken = null;
+            try {
+                accessToken = new DefaultOAuth2AccessToken(tokenValue);
+            } catch (EmptyResultDataAccessException e) {
+                System.out.println("Failed to find access token for token " + tokenValue);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Failed to deserialize access token for " + tokenValue);
+                e.printStackTrace();
+            }
+            return accessToken;
+        }
     }
 }
